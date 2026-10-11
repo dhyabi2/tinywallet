@@ -38,6 +38,8 @@ pub enum Chain {
     Solana,
     /// Tron (mainnet).
     Tron,
+    /// Nano (mainnet).
+    Nano,
 }
 
 impl Chain {
@@ -45,10 +47,10 @@ impl Chain {
     ///
     /// Useful for a host enumerating supported chains. This is the full set
     /// regardless of which feature gates are enabled — see the module docs.
-    pub const ALL: &'static [Self] = &[Self::Btc, Self::Evm, Self::Solana, Self::Tron];
+    pub const ALL: &'static [Self] = &[Self::Btc, Self::Evm, Self::Solana, Self::Tron, Self::Nano];
 
     /// The chain's lowercase machine-readable name (`"btc"`, `"evm"`,
-    /// `"solana"`, `"tron"`).
+    /// `"solana"`, `"tron"`, `"nano"`).
     ///
     /// This is the form [`Chain::from_str`] parses, so `chain.as_str()` always
     /// round-trips.
@@ -59,6 +61,7 @@ impl Chain {
             Self::Evm => "evm",
             Self::Solana => "solana",
             Self::Tron => "tron",
+            Self::Nano => "nano",
         }
     }
 }
@@ -95,6 +98,7 @@ impl FromStr for Chain {
             "evm" | "eth" | "ethereum" => Ok(Self::Evm),
             "solana" | "sol" => Ok(Self::Solana),
             "tron" | "trx" => Ok(Self::Tron),
+            "nano" | "xno" => Ok(Self::Nano),
             other => Err(UnknownChain(other.to_string())),
         }
     }

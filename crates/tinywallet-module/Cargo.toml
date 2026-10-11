@@ -38,6 +38,7 @@ tinywallet = { path = "../..", default-features = false, features = [
     "evm",
     "solana",
     "tron",
+    "nano",
     "keccak",
     "key",
     "tx",

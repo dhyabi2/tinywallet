@@ -15,6 +15,10 @@ fn main() {
         (Chain::Evm, "0x52908400098527886E0F7030069857D2E4169EE7"),
         (Chain::Solana, "11111111111111111111111111111111"),
         (Chain::Tron, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"),
+        (
+            Chain::Nano,
+            "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3",
+        ),
     ];
 
     for (chain, candidate) in fixtures {

@@ -27,6 +27,7 @@
 //! | `evm` | EVM addresses |
 //! | `solana` | Solana addresses |
 //! | `tron` | Tron addresses, and the Tron parts of [`tx`] |
+//! | `nano` | Nano addresses |
 //! | `keccak` | EIP-55 checksums for EVM addresses |
 //! | `net` | the [`rpc::Transport`] seam |
 //! | `asset` | network and token reference data |

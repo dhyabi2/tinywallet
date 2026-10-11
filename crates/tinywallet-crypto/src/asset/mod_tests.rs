@@ -293,7 +293,9 @@ fn networks_are_distinct_and_cover_every_chain() {
     seen.dedup();
     assert_eq!(seen.len(), all.len(), "duplicate network");
 
-    for chain in Chain::ALL {
+    // Nano has address support only: no catalog network and no client
+    // queries yet, so it is the one chain this table does not cover.
+    for chain in Chain::ALL.iter().filter(|c| **c != Chain::Nano) {
         assert!(
             all.iter().any(|n| n.chain() == *chain),
             "no network for {chain}"

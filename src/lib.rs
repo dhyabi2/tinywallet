@@ -2,7 +2,7 @@
 //!
 //! `tinywallet` owns the parts of wallet handling that are pure: address
 //! formats, their validation, and the conversions between their encodings.
-//! Bitcoin, EVM chains, Solana, and Tron each get a module, and
+//! Bitcoin, EVM chains, Solana, Tron, and Nano each get a module, and
 //! [`address::validate`] dispatches across them for chain-generic callers.
 //!
 //! # What this crate deliberately does not do
@@ -45,6 +45,7 @@
 //! | `evm` | on | EVM addresses (no dependencies) |
 //! | `solana` | on | Solana addresses (pulls `bs58`) |
 //! | `tron` | on | Tron addresses (pulls `bs58`, `hex`) |
+//! | `nano` | on | Nano addresses (pulls `blake2`) |
 //! | `keccak` | on | EIP-55 checksums for EVM (pulls `sha3`) |
 //! | `net` | on | the `rpc::Transport` network seam (pulls `async-trait`) |
 //! | `key` | on | BIP-39/BIP-32/SLIP-0010 key derivation (`tinywallet::key`) |

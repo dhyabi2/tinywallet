@@ -149,14 +149,14 @@ serde_json = "1"
 # the library itself still compile with the gates off.
 [[example]]
 name = "basic"
-required-features = ["btc", "evm", "solana", "tron", "keccak"]
+required-features = ["btc", "evm", "solana", "tron", "nano", "keccak"]
 
 [[test]]
 name = "public_api"
 required-features = ["btc", "evm", "solana", "tron", "keccak"]
 
 [features]
-default = ["btc", "evm", "solana", "tron", "keccak", "net", "key", "asset", "client", "tx", "x402", "wire", "eip712", "abi"]
+default = ["btc", "evm", "solana", "tron", "nano", "keccak", "net", "key", "asset", "client", "tx", "x402", "wire", "eip712", "abi"]
 # Every gate below that names a module this crate no longer owns forwards to the
 # crate that does. The names are unchanged on purpose: a consumer that asked for
 # `tinywallet/btc` before the split gets exactly what it got before, from a
@@ -172,6 +172,8 @@ evm = ["tinywallet-crypto/evm"]
 solana = ["tinywallet-crypto/solana"]
 # Tron base58check address validation and hex conversion.
 tron = ["tinywallet-crypto/tron"]
+# Nano address validation and encoding.
+nano = ["tinywallet-crypto/nano"]
 # EIP-55 mixed-case checksum support for EVM addresses. `dep:sha3` is this
 # crate's own, for the addresses `key` derivation produces.
 keccak = ["evm", "dep:sha3", "tinywallet-crypto/keccak"]

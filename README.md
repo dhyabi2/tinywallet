@@ -4,8 +4,8 @@ Agent-friendly multi-chain wallet primitives in Rust.
 
 `tinywallet` owns the parts of wallet handling that are pure: address formats,
 their validation, and the conversions between their encodings. Bitcoin, EVM
-chains, Solana, and Tron each get a module, and `address::validate` dispatches
-across them for chain-generic callers.
+chains, Solana, Tron, and Nano each get a module, and `address::validate`
+dispatches across them for chain-generic callers.
 
 ```rust
 use tinywallet::{address, Chain};
@@ -40,6 +40,7 @@ because it is easy to assume otherwise:
 | --- | --- | --- |
 | Bitcoin | yes (base58check / bech32) | caught |
 | Tron | yes (base58check) | caught |
+| Nano | yes (blake2b, 40 bits) | caught |
 | EVM | optional (EIP-55, only if mixed-case) | usually **not** caught |
 | Solana | none | **not reliably** caught |
 
@@ -75,6 +76,7 @@ not pay for the others' parsers.
 | `evm` | on | EVM addresses | — (dependency-free) |
 | `solana` | on | Solana addresses | `bs58` |
 | `tron` | on | Tron addresses | `bs58`, `hex` |
+| `nano` | on | Nano addresses (`nano_` / legacy `xrb_`) | `blake2` |
 | `keccak` | on | EIP-55 checksums for EVM | `sha3` |
 
 With a chain's gate off, `address::validate` returns `Error::ChainNotCompiled`
@@ -170,7 +172,7 @@ must error, never validate):
 ```sh
 cargo clippy --all-targets --no-default-features -- -D warnings
 cargo test --lib --no-default-features
-for f in btc evm solana tron keccak; do
+for f in btc evm solana tron nano keccak; do
   cargo check --lib --no-default-features --features "$f"
   cargo test --lib --no-default-features --features "$f"
 done

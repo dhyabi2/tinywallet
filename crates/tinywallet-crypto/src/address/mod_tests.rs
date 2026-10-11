@@ -6,11 +6,15 @@ use super::validate;
 use crate::{Chain, Error};
 
 /// One valid mainnet address per chain.
-const FIXTURES: [(Chain, &str); 4] = [
+const FIXTURES: [(Chain, &str); 5] = [
     (Chain::Btc, "bc1qw508d6qejxtdg4y5r3zarvary0c5xw7kv8f3t4"),
     (Chain::Evm, "0x52908400098527886E0F7030069857D2E4169EE7"),
     (Chain::Solana, "11111111111111111111111111111111"),
     (Chain::Tron, "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t"),
+    (
+        Chain::Nano,
+        "nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3",
+    ),
 ];
 
 /// Whether the feature gate behind `chain` is on in this build.
@@ -28,6 +32,8 @@ const fn chain_enabled(chain: Chain) -> bool {
         Chain::Solana => true,
         #[cfg(feature = "tron")]
         Chain::Tron => true,
+        #[cfg(feature = "nano")]
+        Chain::Nano => true,
         _ => false,
     }
 }

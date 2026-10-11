@@ -3,7 +3,7 @@
 //! Each submodule owns one chain's address format and exposes the same core
 //! shape: a `validate` returning the trimmed address, plus whatever
 //! chain-specific conversions are genuinely useful (`solana::decode`,
-//! `tron::to_hex`, `btc::validate_sender`).
+//! `tron::to_hex`, `btc::validate_sender`, `nano::decode`).
 //!
 //! [`validate`] dispatches across all of them for chain-generic callers.
 //!
@@ -20,6 +20,7 @@
 //! | --- | --- | --- |
 //! | Bitcoin | yes (base58check / bech32) | caught |
 //! | Tron | yes (base58check) | caught |
+//! | Nano | yes (blake2b, 40 bits) | caught |
 //! | EVM | optional (EIP-55, only if mixed-case) | usually *not* caught |
 //! | Solana | none | *not reliably* caught |
 //!
@@ -34,6 +35,8 @@ use crate::chain::Chain;
 pub mod btc;
 #[cfg(feature = "evm")]
 pub mod evm;
+#[cfg(feature = "nano")]
+pub mod nano;
 #[cfg(feature = "solana")]
 pub mod solana;
 #[cfg(feature = "tron")]
@@ -72,7 +75,13 @@ pub mod tron;
 // `address` goes unread. That build is legal (a host may depend on this crate
 // purely for `Chain`), so the unused binding is expected rather than a bug.
 #[cfg_attr(
-    not(any(feature = "btc", feature = "evm", feature = "solana", feature = "tron")),
+    not(any(
+        feature = "btc",
+        feature = "evm",
+        feature = "solana",
+        feature = "tron",
+        feature = "nano"
+    )),
     allow(unused_variables)
 )]
 pub fn validate(chain: Chain, address: &str) -> Result<String> {
@@ -85,6 +94,8 @@ pub fn validate(chain: Chain, address: &str) -> Result<String> {
         Chain::Solana => Some(solana::validate),
         #[cfg(feature = "tron")]
         Chain::Tron => Some(tron::validate),
+        #[cfg(feature = "nano")]
+        Chain::Nano => Some(nano::validate),
         _ => None,
     };
     let validator = validator.ok_or(crate::Error::ChainNotCompiled { chain })?;

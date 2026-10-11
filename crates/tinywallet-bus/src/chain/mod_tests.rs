@@ -55,3 +55,16 @@ fn an_unknown_name_is_reported_with_the_input() {
         UnknownChain("dogecoin".to_string())
     );
 }
+
+#[test]
+fn nano_parses_with_its_aliases() {
+    for input in ["nano", "xno", "NANO"] {
+        assert_eq!(
+            Chain::from_str(input).unwrap(),
+            Chain::Nano,
+            "alias {input}"
+        );
+    }
+    assert_eq!(Chain::Nano.as_str(), "nano");
+    assert!(Chain::ALL.contains(&Chain::Nano));
+}
